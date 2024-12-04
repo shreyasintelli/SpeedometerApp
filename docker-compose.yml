@@ -1,0 +1,36 @@
+version: '3.8'
+services:
+  frontend:
+    build: 
+      context: ./Frontend/SpeedometerApp  
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    environment:
+      - VITE_BACKEND_URL=http://backend:5000
+
+  backend:
+    build: ./Backend
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mysql
+    environment:
+      - DB_HOST=mysql
+      - DB_USER=root
+      - DB_PASSWORD=Shre@6.62607004
+      - DB_NAME=speedometer_db
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      - MYSQL_ROOT_PASSWORD=Shre@6.62607004
+      - MYSQL_DATABASE=speedometer_db
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./Database/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  mysql-data:

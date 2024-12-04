@@ -1,0 +1,6 @@
+flowchart TB
+    A[React Frontend] -->|HTTP Requests| B[Node.js Backend]
+    B -->|Database Queries| C[MySQL Database]
+    D[Docker Compose] --> A
+    D --> B
+    D --> C
